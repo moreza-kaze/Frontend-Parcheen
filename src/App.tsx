@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Button } from "@/components/ui/button";
+
+import "./App.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const queryClient=new QueryClient
   return (
     <>
-	      <Button>Click me</Button>
+      <QueryClientProvider client={queryClient}>
+        <Button onClick={()=>{console.log("abcdefghijklmnop")}}>Click me</Button>
+      </QueryClientProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
