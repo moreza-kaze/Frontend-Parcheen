@@ -3,9 +3,9 @@
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
+  
 } from "@tanstack/react-query";
-import Test from "./pages/test";
+import Test from "./feature/CDNTest/Test";
 
 function App() {
   const queryClient = new QueryClient();
