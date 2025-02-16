@@ -13,8 +13,7 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-       <Test
-        />
+       <Test />
       </QueryClientProvider>
     </>
   );

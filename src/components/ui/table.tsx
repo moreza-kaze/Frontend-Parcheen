@@ -19,19 +19,23 @@ Table.displayName = "Table";
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.ComponentProps<"div"> & {
-    headerLabel:[{label:string,className:string}],
-    headerClassName?:string[]
+    headerLabel: [{ label: string; className: React.ReactNode }];
+    headerClassName?: string;
   }
->(({headerLabel,headerClassName, className,...props }, ref) => (
+>(({ headerLabel, headerClassName, className, ...props }, ref) => (
   <thead ref={ref} className={cn("[&_tr]:border-b", className)}>
     <TableRow>
-      {headerLabel && headerLabel.map((ele:any,index:number)=>
-      {
-        return(
-          <TableHead key={index} className={ele.className}>{ele.label}</TableHead>
-        )
-      }
-      )}
+      {headerLabel &&
+        headerLabel.map((ele: any, index: number) => {
+          return (
+            <TableHead
+              key={index}
+              className={`${ele.className} ${headerClassName}`}
+            >
+              {ele.label}
+            </TableHead>
+          );
+        })}
     </TableRow>
   </thead>
 ));
@@ -39,14 +43,27 @@ TableHeader.displayName = "TableHeader";
 
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <tbody
-    ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
-    {...props}
-  />
-));
+  React.ComponentProps<"div"> & {
+    isLoading?: boolean;
+    loadingContent?: React.ReactNode;
+    isEmpty?: boolean;
+    emptyContent?: React.ReactNode;
+  }
+>(
+  (
+    { className, isLoading, loadingContent, isEmpty, emptyContent, ...props },
+    ref
+  ) =>
+    isLoading ? (
+      loadingContent
+    ) : isEmpty ? emptyContent : (
+      <tbody
+        ref={ref}
+        className={cn("[&_tr:last-child]:border-0", className)}
+        {...props}
+      />
+    )
+);
 TableBody.displayName = "TableBody";
 
 const TableFooter = React.forwardRef<

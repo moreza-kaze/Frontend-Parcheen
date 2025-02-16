@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { BaseButton } from "@/components/ui/baseButton";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import TestData from "./TestData";
@@ -10,24 +10,35 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useUserStore } from "@/store/userStore";
 // import { create } from "zustand";
 
-const Test = () => {
+const Test =  () => {
   //   const { users, setUsers } = useStore();
+  const setUser = useUserStore((state) => state.setUser);
   const [page, setPage] = useState(1);
-  const { isLoading, isError, data, error } = useQuery({
+  const { data, isLoading, error} = useQuery({
     queryKey: ["todo", page],
     queryFn: async () => {
-      const token="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9ic3MuYXNpYXRlY2guY2xvdWRcL2FwaVwvdXNlcnNcL2F1dGhcL2xvZ2luXC92ZXJpZnkiLCJpYXQiOjE3Mzk2MTAyMTgsImV4cCI6MTczOTk3MDIxOCwibmJmIjoxNzM5NjEwMjE4LCJqdGkiOiI0UFdjRFJGcE54OThyTGNpIiwic3ViIjoxMTMyLCJwcnYiOiI1MjZmZmRkZTQyMmQ0YWQ1YmRlNWEzNjRkNWY4YzA2ZGRmM2UxMzI5In0.kH01BZibCuROHcq_bVSyVfdvvUV6H98_wGoeze7F7i8"
-      const res = await fetch(
-        `https://jsonplaceholder.typicode.com/todos/${page}`
-      );
+      const token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9ic3MuYXNpYXRlY2guY2xvdWRcL2FwaVwvdXNlcnNcL2F1dGhcL2xvZ2luXC92ZXJpZnkiLCJpYXQiOjE3Mzk3MTEzMTUsImV4cCI6MTc0MDA3MTMxNSwibmJmIjoxNzM5NzExMzE1LCJqdGkiOiJlWWF1OXRXbzdkaW42UUdjIiwic3ViIjo4NDgxOCwicHJ2IjoiNTI2ZmZkZGU0MjJkNGFkNWJkZTVhMzY0ZDVmOGMwNmRkZjNlMTMyOSJ9.N-zAtnOA0wTBOINumuuZYsAT1fMmNDCpDz4doCx4vcg"
+      const res = await fetch(`https://bss.asiatech.cloud/api/users/sms-logs`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return res.json();
     },
+    
   });
+  // console.log("jkjkjkjkjk",data);
+  // if()
+  // setUser({})
+  !isLoading && setUser(data?.data?.data?.data);
+
   //   useEffect(() => {
   //     setUsers(data);
   //   }, [data]);
+
   return (
     <div>
       {/* <ul>{data?.map((todo:any) => <li key={todo.id}>{todo.title}</li>)}</ul> */}
@@ -37,7 +48,7 @@ const Test = () => {
           <CardTitle>
             <div className="flex justify-between">
               <span>Components</span>
-              <Button
+              <BaseButton
                 variant={"destructive"}
                 size={"lg"}
                 className="!bg-red-300"
@@ -47,13 +58,13 @@ const Test = () => {
                 }}
               >
                 Click me
-              </Button>
+              </BaseButton>
             </div>
           </CardTitle>
           <CardDescription>test table in card</CardDescription>
         </CardHeader>
         <CardContent>
-          <TestData />
+          <TestData isLoading={isLoading}/>
         </CardContent>
         <CardFooter>
           <p>Card Footer</p>
