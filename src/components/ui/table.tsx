@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
 
 const Table = React.forwardRef<
@@ -29,10 +28,10 @@ const TableHeader = React.forwardRef<
         headerLabel.map((ele: any, index: number) => {
           return (
             <TableHead
-              key={index}
-              className={`${ele.className} ${headerClassName}`}
+              className={` border border-black`}
             >
-              {ele.label}
+             
+                {ele.label}
             </TableHead>
           );
         })}
@@ -40,6 +39,14 @@ const TableHeader = React.forwardRef<
   </thead>
 ));
 TableHeader.displayName = "TableHeader";
+
+const TableHeader2 = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+));
+TableHeader2.displayName = "TableHeader2";
 
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
@@ -56,7 +63,9 @@ const TableBody = React.forwardRef<
   ) =>
     isLoading ? (
       loadingContent
-    ) : isEmpty ? emptyContent : (
+    ) : isEmpty ? (
+      emptyContent
+    ) : (
       <tbody
         ref={ref}
         className={cn("[&_tr:last-child]:border-0", className)}
@@ -141,6 +150,7 @@ TableCaption.displayName = "TableCaption";
 export {
   Table,
   TableHeader,
+  TableHeader2,
   TableBody,
   TableFooter,
   TableHead,

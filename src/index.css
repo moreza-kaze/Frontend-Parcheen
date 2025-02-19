@@ -156,4 +156,7 @@
   direction: rtl;
   text-align: right;
 }
+.custom-cursor {
+  cursor: url('/public/resizeimage.png'), auto !important;
+}
 }
