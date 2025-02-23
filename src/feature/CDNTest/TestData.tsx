@@ -1,24 +1,23 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+// import {
+//   Table,
+//   TableBody,
+//   TableCaption,
+//   TableCell,
+//   TableHeader,
+//   TableRow,
+// } from "@/components/ui/table";
 import { DataTable } from "@/components/ui/v1/resizableTable";
-import { useUserStore } from "@/store/userStore";
 import { columns } from "./../../components/ui/v1/Columns";
 import { users } from "./data";
+import LoadingButton from "@/components/ui/v1/LoadingButton";
 
 const TestData = ({ isLoading }: any) => {
-  const headerLabel: any = [
-    { label: "نام سرور", className: "max-w-1/4" },
-    { label: "نوع سیستم عامل", className: "w-1/4" },
-    { label: "آدرس IP", className: "w-1/4" },
-    { label: "وضعیت", className: "w-1/4" },
-  ];
-  // const data = useUserStore((state) => state.user);
+  // const headerLabel: any = [
+  //   { label: "نام سرور", className: "max-w-1/4" },
+  //   { label: "نوع سیستم عامل", className: "w-1/4" },
+  //   { label: "آدرس IP", className: "w-1/4" },
+  //   { label: "وضعیت", className: "w-1/4" },
+  // ];
 
   return (
     <div>
@@ -62,7 +61,11 @@ const TestData = ({ isLoading }: any) => {
           }
         </TableBody>
       </Table> */}
-       <DataTable columns={columns} data={users} />
+      {isLoading ? (
+        <LoadingButton />
+      ) : (
+        <DataTable columns={columns} data={users} />
+      )}
     </div>
   );
 };

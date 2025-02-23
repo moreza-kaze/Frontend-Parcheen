@@ -1,6 +1,6 @@
 import { BaseButton } from "@/components/ui/baseButton";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TestData from "./TestData";
 import {
   Card,
@@ -13,36 +13,43 @@ import {
 import { useUserStore } from "@/store/userStore";
 // import { create } from "zustand";
 
-const Test =  () => {
+const Test = () => {
   //   const { users, setUsers } = useStore();
   const setUser = useUserStore((state) => state.setUser);
+  const [tableData, setTableData] = useState();
   const [page, setPage] = useState(1);
-  const { data, isLoading, error} = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["todo", page],
     queryFn: async () => {
-      const token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9ic3MuYXNpYXRlY2guY2xvdWRcL2FwaVwvdXNlcnNcL2F1dGhcL2xvZ2luXC92ZXJpZnkiLCJpYXQiOjE3Mzk3NzE0MDksImV4cCI6MTc0MDEzMTQwOSwibmJmIjoxNzM5NzcxNDA5LCJqdGkiOiIwZU9naUxpV25sNTJrZkRZIiwic3ViIjoxMTMyLCJwcnYiOiI1MjZmZmRkZTQyMmQ0YWQ1YmRlNWEzNjRkNWY4YzA2ZGRmM2UxMzI5In0.bLYjeSgUvVkMOyp158_GKJNVWPuTtQZBGHvSjoW_ayg"
-      const res = await fetch(`https://bss.asiatech.cloud/api/users/sms-logs`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9ic3MuYXNpYXRlY2guY2xvdWRcL2FwaVwvdXNlcnNcL2F1dGhcL2xvZ2luXC92ZXJpZnkiLCJpYXQiOjE3NDAyMTIyNDMsImV4cCI6MTc0MDU3MjI0MywibmJmIjoxNzQwMjEyMjQzLCJqdGkiOiJRWUxtQmhSZDFoOUZ0OXZKIiwic3ViIjo0NDk0NiwicHJ2IjoiNTI2ZmZkZGU0MjJkNGFkNWJkZTVhMzY0ZDVmOGMwNmRkZjNlMTMyOSJ9.eIGt4AMXDHTKpIkI-qg6npYsiqD0f9wxgLYaLTDCr80";
+      const res = await fetch(
+        `https://bss.asiatech.cloud/api/v3/infrastructure/vcenter/vm?projects=`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (isLoading) return <div>بارگذاری...</div>;
+      if (isError) return <div>خطا!</div>;
+      if (!data) return <div>دیتا خالی</div>;
+      // console.log("ggggggggggggggg", res.json());
+      // setTableData(res.json())
       return res.json();
     },
-    
   });
-  // console.log("jkjkjkjkjk",data);
-  // if()
-  // setUser({})
-  !isLoading && setUser(data?.data?.data?.data);
 
-  //   useEffect(() => {
-  //     setUsers(data);
-  //   }, [data]);
+  // !isLoading && data && data.response && setTableData(data);
+
+  useEffect(() => {
+    if (data) {
+      setTableData(data?.response);
+    }
+  }, [data]);
 
   return (
     <div>
-      {/* <ul>{data?.map((todo:any) => <li key={todo.id}>{todo.title}</li>)}</ul> */}
-
       <Card>
         <CardHeader>
           <CardTitle>
@@ -53,7 +60,6 @@ const Test =  () => {
                 size={"lg"}
                 className="!bg-red-300"
                 onClick={() => {
-                  console.log("ggggg", data);
                   setPage(page + 1);
                 }}
               >
@@ -64,7 +70,7 @@ const Test =  () => {
           <CardDescription>test table in card</CardDescription>
         </CardHeader>
         <CardContent>
-          <TestData isLoading={isLoading}/>
+          <TestData isLoading={isLoading} />
         </CardContent>
         <CardFooter>
           <p>Card Footer</p>

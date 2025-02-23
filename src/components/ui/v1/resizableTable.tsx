@@ -25,6 +25,7 @@ import {
     columns: ColumnDef<User, TValue>[];
     data: User[];
   }) => {
+    
     const [colSizing, setColSizing] = useState<ColumnSizingState>({});
   
     const table = useReactTable({

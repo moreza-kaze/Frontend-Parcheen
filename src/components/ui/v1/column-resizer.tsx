@@ -13,12 +13,12 @@ export const ColumnResizer = ({
       {...{
         onMouseDown: header.getResizeHandler(),
         onTouchStart: header.getResizeHandler(),
-        className: `absolute top-0 left-0 cursor-col-resize w-px h-full hover:bg-gray-800  hover:w-4 `,
+        className: `absolute top-0 left-0 cursor-col-resize w-px h-full hover:bg-gray-800  hover:w-2 `,
         style: {
           userSelect: "none",
           touchAction: "none",
-          // cursor:"pointer"
-          cursor: "url('/public/resizeimage.JPG'), auto"
+          cursor:"e-resize"
+          // cursor: "url('/public/resizeimage.JPG'), auto"
         },
       }}
     />
